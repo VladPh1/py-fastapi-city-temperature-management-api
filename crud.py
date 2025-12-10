@@ -63,11 +63,11 @@ def get_temperatures_by_city(db: Session, city_id: int, skip: int = 0, limit: in
 
 
 def create_temperature(db: Session, temperature: schemas.TemperatureCreate):
-    date_val = temperature.date_time if temperature.date_time else datetime.now()
+    date_time = temperature.date_time if temperature.date_time else datetime.now()
 
     db_temperature = models.DBTemperature(
         city_id=temperature.city_id,
-        date_time=date_val,
+        date_time=date_time,
         temperature=temperature.temperature,
     )
     db.add(db_temperature)

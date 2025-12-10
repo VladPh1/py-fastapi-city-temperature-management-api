@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import httpx
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -89,7 +91,7 @@ def read_temperatures(
 
 
 @app.post("/temperatures/update/", response_model=List[schemas.Temperature])
-async def update_temperatures(db: Session = Depends(get_db)):
+async def update_temperatures(db: Session = Depends(get_db), date_time: datetime.datetime = Depends(datetime.datetime.utcnow)):
     cities = crud.get_cities(db, limit=1000)
     new_temperatures = []
 
@@ -130,6 +132,7 @@ async def update_temperatures(db: Session = Depends(get_db)):
                 temp_data = schemas.TemperatureCreate(
                     city_id=city.id,
                     temperature=float(current_temp)
+                    date_time=date_time
                 )
 
                 new_temp = crud.create_temperature(db=db, temperature=temp_data)
