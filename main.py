@@ -131,7 +131,7 @@ async def update_temperatures(db: Session = Depends(get_db), date_time: datetime
 
                 temp_data = schemas.TemperatureCreate(
                     city_id=city.id,
-                    temperature=float(current_temp)
+                    temperature=float(current_temp),
                     date_time=date_time
                 )
 
